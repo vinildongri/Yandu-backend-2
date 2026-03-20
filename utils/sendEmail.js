@@ -1,3 +1,4 @@
+import nodemailer from "nodemailer"; // 👈 Make sure this is imported!
 
 const sendMail = async (options) => {
     const transport = nodemailer.createTransport({
@@ -14,7 +15,7 @@ const sendMail = async (options) => {
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: options.email,
         subject: options.subject,
-        html: options.message,
+        html: options.message, // Ensure this matches what you pass from the controller
     };
 
     await transport.sendMail(message);

@@ -4,7 +4,7 @@ export const getResetPasswordTemplate = ( username, resetUrl ) =>`
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Password Reset - NoteGen</title>
+    <title>Password Reset - Yandu</title>
     <style>
       body { margin:0; padding:0; background:#f4f7fb; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
       .container { max-width:600px; margin:40px auto; background:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #e6eef7; }
@@ -17,11 +17,11 @@ export const getResetPasswordTemplate = ( username, resetUrl ) =>`
   </head>
   <body>
     <div class="container">
-      <div class="header">NoteGen</div>
+      <div class="header">Yandu</div>
       <div class="content">
         <h2 style="margin-top:0;">Reset Your Password</h2>
         <p>Hi ${username},</p>
-        <p>You recently requested to reset your password for your NoteGen account. Click the button below to reset it:</p>
+        <p>You recently requested to reset your password for your Yandu account. Click the button below to reset it:</p>
         <p>This password reset Only valid for 30 minutes</p>
 
         <p style="text-align:center;">
@@ -34,7 +34,7 @@ export const getResetPasswordTemplate = ( username, resetUrl ) =>`
         <p class="muted">This link will expire in 30 minutes. If you didn't request a password reset, please ignore this email.</p>
       </div>
       <div class="footer">
-        © ${new Date().getFullYear()} NoteGen • <a href="https://notegen.com" target="_blank">notegen.com</a>
+        © ${new Date().getFullYear()} Yandu • <a href="https://Yandu.com" target="_blank">Yandu.com</a>
       </div>
     </div>
   </body>
