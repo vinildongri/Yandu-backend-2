@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        minLength: [6, "Your password must be longer than 6 characters"],
+        minLength: [8, "Your password must be longer than 8 characters"],
         select: false,
     },
     // Essential for protecting your admin dashboard
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 
 //  Encrypiting Password Before Savaving the user
 userSchema.pre("save", async function (next) {
-    if(!this.isModified("password")){
+    if (!this.isModified("password")) {
         // next();
         return;
     }
@@ -59,7 +59,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // Return JWT Token
-userSchema.methods.getJwtToken = function() {
+userSchema.methods.getJwtToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_TIME,
     });

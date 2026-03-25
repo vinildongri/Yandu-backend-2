@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node backend/app.js",
-    "dev": "NODE_ENV=DEVELOPMENT& nodemon backend/app.js",
-    "prod": "NODE_ENV=PRODUCTION& nodemon backend/app.js"
+    "dev": "cross-env NODE_ENV=DEVELOPMENT nodemon backend/app.js",
+    "prod": "cross-env NODE_ENV=PRODUCTION nodemon backend/app.js"
   },
   "author": "Vinil",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
