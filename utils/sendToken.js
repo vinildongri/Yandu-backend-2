@@ -7,8 +7,10 @@ export default (user, statusCode, res) => {
     const options = {
         expires: new Date(
             Date.now() + process.env.COOKIE_EXPIRES_TIME * 24 * 60 * 60 * 1000
-       ),
-       httpOnly: true,
+        ),
+        httpOnly: true,
+        secure: true,          // required for HTTPS
+        sameSite: "none"       // required for cross-domain cookies
     };
 
     // console.log(options);
