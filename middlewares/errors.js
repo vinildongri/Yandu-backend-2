@@ -30,7 +30,7 @@ export default (err, req, res, next) => {
 
     // DEVELOPMENT MODE → Full technical details
     if (process.env.NODE_ENV === "DEVELOPMENT") {
-        console.log(process.env.NODE_ENV);
+        // console.log(process.env.NODE_ENV);
         return res.status(err.statusCode || 500).json({
             success: false,
             message: err.message,

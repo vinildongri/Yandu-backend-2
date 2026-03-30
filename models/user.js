@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema({
         minLength: [8, "Your password must be longer than 8 characters"],
         select: false,
     },
-    // Essential for protecting your admin dashboard
     role: {
         type: String,
         enum: ['client', 'admin'],
@@ -45,6 +44,15 @@ const userSchema = new mongoose.Schema({
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
+
+    // Add these inside your mongoose.Schema({...})
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    otp: String,
+    otpExpire: Date,
+
 }, {
     timestamps: true
 });
@@ -86,5 +94,24 @@ userSchema.methods.getResetPasswordToken = async function () {
 
     return resetToken;
 };
+
+
+// 1. Generate a 6-digit OTP
+userSchema.methods.getOTP = function () {
+    // Generate a random 6-digit number
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Hash it and set it to the schema field
+    this.otp = crypto.createHash("sha256").update(otpCode).digest("hex");
+
+    // Set expiration to 15 minutes from now
+    this.otpExpire = Date.now() + 15 * 60 * 1000;
+
+    return otpCode; // Return the unhashed code to send in the email
+};
+
+// 2. The Magic TTL Index (Add this right before your export statement)
+// This tells MongoDB: "Delete this document when the time in 'otpExpire' is reached."
+userSchema.index({ otpExpire: 1 }, { expireAfterSeconds: 0 });
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

@@ -6,6 +6,8 @@ import contactRoutes from "./routes/contact.js";
 import errorMiddleware from "./middlewares/errors.js";
 import authRoutes from "./routes/auth.js";
 import { connectDatabase } from "./config/dbConnect.js";
+import projectRoutes from "./routes/project.js";
+import userRoutes from "./routes/user.js";
 
 // Handle Uncaught exceptions
 process.on("uncaughtException", (err) => {
@@ -38,6 +40,8 @@ app.use(express.json());
 
 app.use("/api/v1", contactRoutes);
 app.use("/api/v1", authRoutes);
+app.use("/api/v1", projectRoutes);
+app.use("/api/v1", userRoutes);
 
 app.use(errorMiddleware);
 
