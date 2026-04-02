@@ -1,6 +1,6 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import User from "../models/user.js";
-
+import ErrorHandler from "../utils/errorHandler.js";
 
 
 // Get Current user profile => /api/v1/me
@@ -31,16 +31,30 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Update Password => /api/v1/password/update
 export const updatePassword = catchAsyncErrors(async (req, res, next) => {
+    const { oldPassword, password, confirmPassword } = req.body;
+
+    if (!password || !confirmPassword) {
+        return next(new ErrorHandler("Please provide both new password and confirm password", 400));
+    }
+
+    if (password !== confirmPassword) {
+        return next(new ErrorHandler("Passwords do not match. Please check your entries.", 400));
+    }
+
     const user = await User.findById(req?.user?._id).select("+password");
 
+    if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+    }
+
     // Check previous Passsword
-    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+    const isPasswordMatched = await user.comparePassword(oldPassword);
 
     if (!isPasswordMatched) {
         return next(new ErrorHandler("old Password is Incorrect", 400));
     }
 
-    user.password = req.body.password;
+    user.password = password;
     await user.save();
 
     res.status(200).json({
