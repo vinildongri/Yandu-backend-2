@@ -34,7 +34,7 @@ export const getResetPasswordTemplate = ( username, resetUrl ) =>`
         <p class="muted">This link will expire in 30 minutes. If you didn't request a password reset, please ignore this email.</p>
       </div>
       <div class="footer">
-        © ${new Date().getFullYear()} Yandu • <a href="https://Yandu.com" target="_blank">Yandu.com</a>
+        © ${new Date().getFullYear()} Yandu • <a href="https://Yandu.in" target="_blank">Yandu.in</a>
       </div>
     </div>
   </body>

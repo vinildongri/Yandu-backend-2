@@ -206,7 +206,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save();
 
     // Create Reset password Url
-    const resetUrl = `${process.env.FRONTEND_URL}/password/forgot${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/password/reset?token=${resetToken}`;
     // console.log("resetUrl: " + resetUrl);
 
 

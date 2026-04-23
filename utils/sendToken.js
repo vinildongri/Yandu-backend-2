@@ -3,6 +3,7 @@ export default (user, statusCode, res) => {
     // Create JWT Token
     const token = user.getJwtToken();
 
+    const isProd = process.env.NODE_ENV === "PRODUCTION";
     // Options for cookie 
     const options = {
         expires: new Date(
