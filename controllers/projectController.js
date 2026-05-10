@@ -3,7 +3,7 @@ import Project from "../models/project.js";
 import ErrorHadler from "../utils/errorHandler.js";
 import User from "../models/user.js";
 
-// // CREATE NEW PROJECT (Admin Only)
+// CREATE NEW PROJECT (Admin Only) =>/api/v1/admin/project/create
 export const createProject = catchAsyncErrors(async (req, res, next) => {
     const { title, budget, client, status, startDate } = req.body;
 
@@ -36,7 +36,7 @@ export const createProject = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// UPDATE PROJECT - Admin => /api/va/project/update
+// UPDATE PROJECT - Admin => /api/v1/admin/project/update
 export const updateProject = catchAsyncErrors(async (req, res, next) => {
     const { status, budget, title } = req.body;
 
@@ -59,5 +59,44 @@ export const updateProject = catchAsyncErrors(async (req, res, next) => {
         success: true,
         message: "Project updated successfully",
         project
+    });
+});
+
+// GET ALL PROJECTS (Admin Only) => /api/v1/admin/projects
+export const getAllProjects = catchAsyncErrors(async (req, res, next) => {
+    const projects = await Project.find().populate("client", "name email");
+
+    const totalProjects = await Project.countDocuments();
+
+    res.status(200).json({
+        success: true,
+        totalProjects,
+        projects
+    });
+});
+
+// GET ALL PROJECTS FOR A SPECIFIC USER => /api/v1/my-projects
+export const getMyProjects = catchAsyncErrors(async (req, res, next) => {
+    const clientId = req.user._id;
+
+    // Fetch projects and sort them so the newest ones show up first
+    const projects = await Project.find({ client: clientId })
+        .populate("client", "name email")
+        .sort({ createdAt: -1 });
+
+    // Keep the response format exactly the same so your frontend doesn't break
+    if (!projects || projects.length === 0) {
+        return res.status(200).json({
+            success: true,
+            message: "No projects found for this user",
+            totalProjects: 0,
+            projects: []
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        totalProjects: projects.length,
+        projects
     });
 });
